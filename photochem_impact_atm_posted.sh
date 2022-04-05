@@ -15,7 +15,7 @@
    pNH3=0
    minpH2O=10  # smallest amount of H2O for a global event
 
-    planet=Earth
+   planet=Earth
 
    buffer=1
 #   buffer=1 # Fe titration by CO2, H2O
@@ -55,6 +55,7 @@
    mkdir Chem            #
    mkdir Chem/"pCO2=${pCO2}"   # and endure taunts if it already exists
 
+   Fe_react_frac=1.0
    Mi=23.4       # impact mass
                   # Vesta is 23.4
 
@@ -62,7 +63,7 @@
    mkdir Chem/"pCO2=${pCO2}"/"Mi=${Mi}"/"fH2O=${fH2O}"   # and endure taunts if it already exists
 
 #  put parameters into file IW.input that is read in by fortran program
-     echo ${buffer} ${Mi} ${pCO} ${pCO2} ${pH2} ${pH2O} ${pCH4} ${pN2} ${pNH3} ${planet} ${minpH2O} ${eta} > IW.input
+     echo ${buffer} ${Fe_react_frac} ${Mi} ${pCO} ${pCO2} ${pH2} ${pH2O} ${pCH4} ${pN2} ${pNH3} ${planet} ${minpH2O} ${eta} > IW.input
 
      gfortran IW_posted.f -o domo
      
@@ -105,6 +106,23 @@
      mv "evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.out" Chem/"pCO2=${pCO2}"/"Mi=${Mi}"/"fH2O=${fH2O}"/"evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.out"
      mv "evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.p" Chem/"pCO2=${pCO2}"/"Mi=${Mi}"/"fH2O=${fH2O}"/"evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.p"
      mv "evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.mix" Chem/"pCO2=${pCO2}"/"Mi=${Mi}"/"fH2O=${fH2O}"/"evolve_Mi=${Mi}_pCO2=${pCO2}_pH2O=${pH2O}_${fluff}_f=${fH2O}.mix"
+     
+     rm IW.out
+     rm IW.outcolumns
+     rm IW.pressure
+     rm IW.drypressure
+     rm IW.column
+     rm IW.650columns
+     
+     rm evolve.out
+     rm evolve.p
+     rm evolve.mix
+
+     rm IW.input
+     rm photochem.input
+     rm domo
+     rm tomo
+     rm IW.parameters
 
 #
 # Created by Kevin Zahnle on 6/5/12.

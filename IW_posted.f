@@ -39,6 +39,7 @@ c input pressures are reservoirs, same as bars if single component atmosphere
 c we store this stuff
       real*8 Temperature(Nu), pressure(Nu), p(Nu,Nsp)
       real*8 N(Nu,Nsp), N_total(Nu)
+      real(8) :: Fe_react_frac
       integer test_N_O   ! not used right now
 
       integer buffer     ! flag.  buffer=1 if no buffer
@@ -100,8 +101,11 @@ c  assign initial atm
 c  these will be read in from the shell, eventually
 c  these are reservoirs of single component atmospheres!
 c  they need to be converted to moles
-      read (39,*) buffer, mi, pCO, pCO2, pH2, pH2O, pCH4, pN2, pNH3
+      read (39,*) buffer, Fe_react_frac, mi, pCO
+     $    , pCO2, pH2, pH2O, pCH4, pN2, pNH3
      $    , planet, minpH2O, eta
+     
+      print*,"Fe_react_frac:",Fe_react_frac
 
       m_i = 10.**mi
       print *, pCO, pCO2, pH2, pH2O, pCH4, pN2, pNH3
@@ -150,7 +154,7 @@ c input impact mass
 c this will be read in from the shell
 c these quantities are used if buffer=1
 c     m_i = 3.1e23 ! grams
-      Moles_Fe = Fe_fraction*m_i/56.
+      Moles_Fe = Fe_react_frac*Fe_fraction*m_i/56.
       N_Fe     = Moles_Fe/Area   !  Moles cm^-2
 
 c cooling time *** this needs updating
